@@ -9,6 +9,7 @@ A decentralized pay-per-view video platform built on Flow EVM Testnet with IPFS 
 - **IPFS integration**: Videos and thumbnails stored on IPFS via Pinata
 - **Flow EVM Testnet**: All transactions on Flow EVM Testnet
 - **MetaMask integration**: Seamless wallet connection
+- **Centralized configuration**: Easy environment variable setup
 
 ## 📋 Prerequisites
 
@@ -30,15 +31,22 @@ cd Premium-Flow
 npm install
 ```
 
-### 3. Configure Pinata Credentials
-1. Go to [Pinata](https://app.pinata.cloud/) and create an account
-2. Get your JWT token from the API Keys section
-3. Update `src/key.json` with your JWT token:
-```json
-{
-  "JWT": "YOUR_ACTUAL_PINATA_JWT_TOKEN_HERE"
-}
+### 3. Configure Environment Variables
+1. Copy the example environment file:
+```bash
+cp .env.example .env
 ```
+
+2. Update `.env` with your Pinata JWT token:
+```env
+REACT_APP_PINATA_JWT=your_actual_pinata_jwt_token_here
+```
+
+3. Get your Pinata JWT token:
+   - Go to [Pinata](https://app.pinata.cloud/) and create an account
+   - Navigate to API Keys section
+   - Create a new API key or use existing one
+   - Copy the JWT token
 
 ### 4. Get Flow EVM Testnet Tokens
 1. Add Flow EVM Testnet to MetaMask:
@@ -89,23 +97,38 @@ The application uses a PayPerView smart contract deployed on Flow EVM Testnet:
 
 ```
 src/
-├── contractConfig.js    # Flow EVM contract configuration
-├── App.js              # Main application component
-├── components/         # React components
-│   ├── Create.jsx     # Video upload component
-│   ├── NFTs.jsx       # Video listing component
-│   ├── Cards.jsx      # Video card component
-│   ├── PlayerCard.jsx # Video player component
-│   └── Nav.jsx        # Navigation component
-└── key.json           # Pinata credentials (update this)
+├── config.js              # Centralized configuration
+├── contractConfig.js      # Flow EVM contract configuration
+├── App.js                # Main application component
+├── components/           # React components
+│   ├── Create.jsx       # Video upload component
+│   ├── NFTs.jsx         # Video listing component
+│   ├── Cards.jsx        # Video card component
+│   ├── PlayerCard.jsx   # Video player component
+│   └── Nav.jsx          # Navigation component
+├── .env.example         # Environment variables template
+└── .env                 # Your environment variables (create this)
 ```
+
+## ⚙️ Configuration
+
+The application uses a centralized configuration system:
+
+### Environment Variables
+- `REACT_APP_PINATA_JWT` - Your Pinata JWT token for IPFS uploads
+
+### Default Values
+- Display Time: 3600 seconds (1 hour)
+- Minimum Price: 0.001 FLOW
+- Max File Size: 100MB
 
 ## 🚨 Important Notes
 
 - **Environment**: This is configured for Flow EVM Testnet
-- **Credentials**: Update `src/key.json` with your Pinata JWT token
+- **Credentials**: Set `REACT_APP_PINATA_JWT` in your `.env` file
 - **Tokens**: Ensure you have FLOW testnet tokens for transactions
 - **Network**: Make sure MetaMask is connected to Flow EVM Testnet
+- **Security**: Never commit your `.env` file to version control
 
 ## 🔗 Links
 

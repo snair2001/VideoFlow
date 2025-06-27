@@ -3,6 +3,7 @@ import Cards from './Cards'
 import PlayerCard from './PlayerCard';
 import { ethers } from 'ethers';
 import { getContract, formatEther } from '../contractConfig';
+import { PINATA_CONFIG } from '../config';
 
 // import { toast } from 'react-toastify';
 
@@ -34,8 +35,8 @@ function NFTs({ marketplace, setMarketplace, account }) {
           thumbnailHash: thumbnailHashes[i],
           price: formatEther(prices[i]),
           displayTime: displayTimes[i].toString(),
-          videoUrl: `https://ipfs.io/ipfs/${videoHashes[i]}`,
-          thumbnailUrl: `https://ipfs.io/ipfs/${thumbnailHashes[i]}`,
+          videoUrl: `${PINATA_CONFIG.GATEWAY_URL}${videoHashes[i]}`,
+          thumbnailUrl: `${PINATA_CONFIG.GATEWAY_URL}${thumbnailHashes[i]}`,
           title: `Video ${i + 1}` // You might want to store titles in metadata
         };
         displayVideos.push(video);

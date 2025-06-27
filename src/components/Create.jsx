@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { ethers } from "ethers"
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import pinata from '../key.json'
 import { parseEther } from '../contractConfig'
+import { PINATA_CONFIG, DEFAULTS, isPinataConfigured, getPinataHeaders } from '../config'
 
 function Create({ marketplace, account, setMarketplace }) {
 
@@ -12,8 +12,8 @@ function Create({ marketplace, account, setMarketplace }) {
   const [isMinting, setIsMinting] = useState(false);
   const [forminfo, setFormInfo] = useState({
     title: "",
-    price: 0,
-    displayTime: 3600 // Default 1 hour in seconds
+    price: DEFAULTS.MIN_PRICE,
+    displayTime: DEFAULTS.DISPLAY_TIME
   });
 
   useEffect(() => {
@@ -74,8 +74,8 @@ function Create({ marketplace, account, setMarketplace }) {
     }
 
     // Check if Pinata credentials are configured
-    if (!pinata.JWT || pinata.JWT === "YOUR_PINATA_JWT_TOKEN_HERE") {
-      toast.error("Pinata credentials not configured. Please update src/key.json with your JWT token.", {
+    if (!isPinataConfigured()) {
+      toast.error("Pinata credentials not configured. Please set REACT_APP_PINATA_JWT environment variable or update config.js", {
         position: "top-center",
       });
       setIsMinting(false);
@@ -94,12 +94,9 @@ function Create({ marketplace, account, setMarketplace }) {
 
       const resVideo = await axios({
         method: "post",
-        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        url: PINATA_CONFIG.API_URL,
         data: videoData,
-        headers: {
-          Authorization: `Bearer ${pinata.JWT}`,
-          "Content-Type": "multipart/form-data",
-        },
+        headers: getPinataHeaders(),
       });
 
       toast.success("Video uploaded!", {
@@ -116,12 +113,9 @@ function Create({ marketplace, account, setMarketplace }) {
 
       const resThumbnail = await axios({
         method: "post",
-        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        url: PINATA_CONFIG.API_URL,
         data: thumbnailData,
-        headers: {
-          Authorization: `Bearer ${pinata.JWT}`,
-          "Content-Type": "multipart/form-data",
-        },
+        headers: getPinataHeaders(),
       });
 
       toast.success("Thumbnail uploaded!", {

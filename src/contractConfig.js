@@ -1,10 +1,11 @@
 import { ethers } from "ethers";
+import { FLOW_CONFIG } from './config';
 
 // Export ethers functions for convenience
 export const { parseEther, formatEther } = ethers.utils;
 
 // Contract address on Flow EVM Testnet (newly deployed)
-export const CONTRACT_ADDRESS = '0xfd82912dEd827BE2C4317bCb290b81b58Bf4CD6F';
+export const CONTRACT_ADDRESS = FLOW_CONFIG.CONTRACT_ADDRESS;
 
 // Contract ABI
 export const CONTRACT_ABI = [
@@ -149,15 +150,11 @@ export const CONTRACT_ABI = [
 
 // Flow EVM Testnet configuration
 export const NETWORK_CONFIG = {
-  chainId: "0x221",
-  chainName: "Flow EVM Testnet",
-  rpcUrls: ["https://testnet.evm.nodes.onflow.org"],
-  nativeCurrency: {
-    name: "FLOW",
-    symbol: "FLOW",
-    decimals: 18
-  },
-  blockExplorerUrls: ["https://evm-testnet.flowscan.io"]
+  chainId: FLOW_CONFIG.CHAIN_ID,
+  chainName: FLOW_CONFIG.CHAIN_NAME,
+  rpcUrls: [FLOW_CONFIG.RPC_URL],
+  nativeCurrency: FLOW_CONFIG.NATIVE_CURRENCY,
+  blockExplorerUrls: [FLOW_CONFIG.BLOCK_EXPLORER]
 };
 
 // Get contract instance
