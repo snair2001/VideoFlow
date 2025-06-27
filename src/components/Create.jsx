@@ -73,6 +73,15 @@ function Create({ marketplace, account, setMarketplace }) {
       return;
     }
 
+    // Check if Pinata credentials are configured
+    if (!pinata.JWT || pinata.JWT === "YOUR_PINATA_JWT_TOKEN_HERE") {
+      toast.error("Pinata credentials not configured. Please update src/key.json with your JWT token.", {
+        position: "top-center",
+      });
+      setIsMinting(false);
+      return;
+    }
+
     toast.info("Uploading video file", {
       position: "top-center",
     })

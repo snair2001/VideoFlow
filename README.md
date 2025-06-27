@@ -1,70 +1,118 @@
-# Getting Started with Create React App
+# Premium Flow - PayPerView Video Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A decentralized pay-per-view video platform built on Flow EVM Testnet with IPFS storage.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- **Pay-per-view system**: Users pay FLOW tokens to watch videos
+- **Time-based access**: Videos have configurable display times
+- **IPFS integration**: Videos and thumbnails stored on IPFS via Pinata
+- **Flow EVM Testnet**: All transactions on Flow EVM Testnet
+- **MetaMask integration**: Seamless wallet connection
 
-### `npm start`
+## 📋 Prerequisites
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Node.js (v14 or higher)
+- MetaMask wallet
+- Flow EVM Testnet tokens
+- Pinata account for IPFS storage
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Setup Instructions
 
-### `npm test`
+### 1. Clone the Repository
+```bash
+git clone https://github.com/pavankv241/Premium-Flow.git
+cd Premium-Flow
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 2. Install Dependencies
+```bash
+npm install
+```
 
-### `npm run build`
+### 3. Configure Pinata Credentials
+1. Go to [Pinata](https://app.pinata.cloud/) and create an account
+2. Get your JWT token from the API Keys section
+3. Update `src/key.json` with your JWT token:
+```json
+{
+  "JWT": "YOUR_ACTUAL_PINATA_JWT_TOKEN_HERE"
+}
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 4. Get Flow EVM Testnet Tokens
+1. Add Flow EVM Testnet to MetaMask:
+   - Network Name: Flow EVM Testnet
+   - RPC URL: https://testnet.evm.nodes.onflow.org
+   - Chain ID: 0x221 (545)
+   - Currency Symbol: FLOW
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Get testnet tokens from:
+   - [Flow Faucet](https://testnet-faucet-v2.onflow.org/)
+   - [Flow Discord](https://discord.gg/flow) #testnet-faucet channel
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 5. Run the Application
+```bash
+npm start
+```
 
-### `npm run eject`
+The application will be available at `http://localhost:3000`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🎯 How to Use
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### For Content Creators:
+1. Connect your MetaMask wallet
+2. Navigate to "Create" page
+3. Upload video file and thumbnail image
+4. Set price and display time
+5. Click "Upload Video"
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### For Viewers:
+1. Connect your MetaMask wallet
+2. Browse available videos
+3. Pay the required FLOW tokens to watch
+4. Enjoy the video for the specified duration
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🔧 Smart Contract
 
-## Learn More
+The application uses a PayPerView smart contract deployed on Flow EVM Testnet:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Contract Address**: `0xfd82912dEd827BE2C4317bCb290b81b58Bf4CD6F`
+- **Network**: Flow EVM Testnet
+- **Functions**:
+  - `uploadVideo()` - Upload new videos
+  - `payToView()` - Pay to watch videos
+  - `canView()` - Check viewing access
+  - `getVideos()` - Get all videos
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📁 Project Structure
 
-### Code Splitting
+```
+src/
+├── contractConfig.js    # Flow EVM contract configuration
+├── App.js              # Main application component
+├── components/         # React components
+│   ├── Create.jsx     # Video upload component
+│   ├── NFTs.jsx       # Video listing component
+│   ├── Cards.jsx      # Video card component
+│   ├── PlayerCard.jsx # Video player component
+│   └── Nav.jsx        # Navigation component
+└── key.json           # Pinata credentials (update this)
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🚨 Important Notes
 
-### Analyzing the Bundle Size
+- **Environment**: This is configured for Flow EVM Testnet
+- **Credentials**: Update `src/key.json` with your Pinata JWT token
+- **Tokens**: Ensure you have FLOW testnet tokens for transactions
+- **Network**: Make sure MetaMask is connected to Flow EVM Testnet
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🔗 Links
 
-### Making a Progressive Web App
+- [Flow EVM Testnet](https://testnet.evm.nodes.onflow.org/)
+- [Pinata IPFS](https://app.pinata.cloud/)
+- [Flow Faucet](https://testnet-faucet-v2.onflow.org/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 📝 License
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is open source and available under the MIT License.
