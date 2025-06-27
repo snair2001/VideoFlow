@@ -1,0 +1,97 @@
+{
+    "address": "0x7B98A13013cc189A98285Ef61AAEdBee53Bb0a17",
+    "abi": [
+      {
+        "inputs": [
+          {
+            "internalType": "string",
+            "name": "_ipfsHash",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_price",
+            "type": "uint256"
+          }
+        ],
+        "name": "addFile",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "_index",
+            "type": "uint256"
+          }
+        ],
+        "name": "watchVideo",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "fileCount",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "videosCount",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "inputs": [],
+        "name": "viewFiles",
+        "outputs": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "owner",
+                "type": "address"
+              },
+              {
+                "internalType": "string",
+                "name": "ipfsHash",
+                "type": "string"
+              },
+              {
+                "internalType": "uint256",
+                "name": "price",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct VideoNft.VideoFile[]",
+            "name": "",
+            "type": "tuple[]"
+          }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+      }
+    ]
+}
