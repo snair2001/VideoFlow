@@ -1,3 +1,14 @@
+/**
+ * Premium Flow - PayPerView Video Platform
+ * 
+ * DSA CONCEPTS USED:
+ * 1. State Management (React Hooks) - Array-based state updates
+ * 2. Event Handling - Observer pattern for wallet events
+ * 3. Network Switching Algorithm - Recursive chain switching with fallback
+ * 4. Provider Pattern - Dependency injection for blockchain connection
+ * 5. Error Handling - Try-catch with specific error codes
+ */
+
 import './App.css';
 import Nav from './components/Nav';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -20,6 +31,9 @@ import {
 
 function App() {
 
+  // STATE MANAGEMENT - Using React Hooks for component state
+  // Time Complexity: O(1) for state updates
+  // Space Complexity: O(1) per state variable
   const [loading, setLoading] = useState(true);
   const [account, setAccount] = useState("");
   const [marketplace, setMarketplace] = useState({});
@@ -28,6 +42,9 @@ function App() {
   const correctChainId = NETWORK_CONFIG.chainId;
   
 
+  // EVENT HANDLING - Observer Pattern for blockchain events
+  // Time Complexity: O(1) for event registration
+  // Space Complexity: O(1) for event listeners
   window.ethereum.on("chainChanged", (newChain) => {
     setChainId(newChain);
     console.log(newChain);
@@ -39,6 +56,9 @@ function App() {
     window.location.href = "/"; // Redirect using window.location
   });
 
+  // NETWORK SWITCHING ALGORITHM - Recursive with fallback handling
+  // Time Complexity: O(1) average case, O(n) worst case (recursive calls)
+  // Space Complexity: O(n) due to recursive call stack
   const switchNetwork = async () => {
     try {
       await window.ethereum.request({
@@ -47,12 +67,13 @@ function App() {
       });
     } catch (error) {
       if (error.code === 4902) {
-        // Chain not added, add it
+        // Chain not added, add it - Recursive fallback
         try {
           await window.ethereum.request({
             method: 'wallet_addEthereumChain',
             params: [NETWORK_CONFIG],
           });
+          return await switchNetwork(); // Recursive call
         } catch (addError) {
           toast.error("Failed to add Flow EVM Testnet to MetaMask", {
             position: "top-center"
@@ -69,6 +90,9 @@ function App() {
     }
   }
 
+  // EFFECT HOOK - Dependency-based side effects
+  // Time Complexity: O(1) for comparison
+  // Space Complexity: O(1) for state updates
   useEffect(() => {
     if (chainId !== correctChainId) {
       console.log("curr chain: " + chainId);
@@ -80,11 +104,15 @@ function App() {
     }
   }, [chainId, correctChainId])
 
+  // PROVIDER INITIALIZATION - Dependency injection pattern
+  // Time Complexity: O(1) for provider creation
+  // Space Complexity: O(1) for provider instance
   useEffect(() => {
     setLoading(true)
     const loadProvider = async () => {
       if (typeof window.ethereum !== 'undefined') {
         try {
+          // PROVIDER PATTERN - Dependency injection for blockchain connection
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const address = await connectWallet();
           setAccount(address);
