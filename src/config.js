@@ -16,7 +16,7 @@
 // Time Complexity: O(1) for configuration access
 // Space Complexity: O(1) for configuration storage
 export const PINATA_CONFIG = {
-  JWT: process.env.REACT_APP_PINATA_JWT || "YOUR_PINATA_JWT_TOKEN_HERE",
+  JWT: process.env.REACT_APP_PINATA_JWT || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI1M2RhMTZjMy1jYzJhLTRlOTAtYWM4MS01ZTE2MDNmMGI5NWEiLCJlbWFpbCI6InBhdmFua3VtYXJrdi4yM21jYUBjYW1icmlkZ2UuZWR1LmluIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6Ijg0YTY2NGM5MmIyMmY2MWUwNTlhIiwic2NvcGVkS2V5U2VjcmV0IjoiNWI0NTljMmMzMWY5YzZhMjEyM2IyMDU1MDI0N2JjOTNiZjljOGY2MDM3NDEzNTg5Y2IzMjc5Zjk1YTJmZDE0NSIsImV4cCI6MTc4MjA0MTI5M30._sjHK_aGVSXXwSbeFZ-9qcDM3Omu4oVNxZkjJX_edUQ",
   API_URL: "https://api.pinata.cloud/pinning/pinFileToIPFS",
   GATEWAY_URL: "https://ipfs.io/ipfs/"
 };

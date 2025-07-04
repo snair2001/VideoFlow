@@ -10,10 +10,9 @@
  * 6. Conditional Rendering - Boolean state-based UI rendering
  */
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import Cards from './Cards'
 import PlayerCard from './PlayerCard';
-import { ethers } from 'ethers';
 import { getContract, formatEther } from '../contractConfig';
 import { PINATA_CONFIG } from '../config';
 
@@ -26,12 +25,11 @@ function NFTs({ marketplace, setMarketplace, account }) {
   // Space Complexity: O(n) where n is number of videos
   const [loading, setLoading] = useState(true)
   const [videos, setVideos] = useState([])
-  const [processing, setProcessing] = useState(false)
 
   // DATA FETCHING ALGORITHM - Asynchronous blockchain data retrieval
   // Time Complexity: O(n) where n is number of videos in contract
   // Space Complexity: O(n) for storing video data
-  const loadVideos = async () => {
+  const loadVideos = useCallback(async () => {
     setLoading(true)
     try {
       let contract = marketplace;
@@ -63,6 +61,7 @@ function NFTs({ marketplace, setMarketplace, account }) {
           thumbnailUrl: `${PINATA_CONFIG.GATEWAY_URL}${thumbnailHashes[i]}`,
           title: `Video ${i + 1}` // You might want to store titles in metadata
         };
+        console.log(`Created video with ID ${i}:`, video);
         displayVideos.push(video);
       }
 
@@ -73,14 +72,14 @@ function NFTs({ marketplace, setMarketplace, account }) {
       console.error("Error loading videos:", error);
       setLoading(false);
     }
-  }
+  }, [marketplace])
 
   // EFFECT HOOK - Dependency-based side effects
   // Time Complexity: O(1) for effect execution
   // Space Complexity: O(1) for effect cleanup
   useEffect(() => {
     loadVideos()
-  }, [marketplace])
+  }, [loadVideos])
 
   // STATE MANAGEMENT - Video player state
   // Time Complexity: O(1) for state updates
@@ -128,8 +127,6 @@ function NFTs({ marketplace, setMarketplace, account }) {
                 setCurrVideo={setCurrVideo} 
                 account={account} 
                 idx={idx} 
-                processing={processing} 
-                setProcessing={setProcessing} 
                 marketplace={marketplace} 
               />
             ))

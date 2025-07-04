@@ -11,7 +11,6 @@
  */
 
 import React, { useEffect, useState } from 'react'
-import { ethers } from "ethers"
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { parseEther } from '../contractConfig'

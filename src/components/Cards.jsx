@@ -10,8 +10,7 @@
  * 6. Memory Management - Efficient state updates
  */
 
-import React, { useEffect, useState } from 'react'
-import { ethers } from 'ethers'
+import React, { useEffect, useState, useCallback } from 'react'
 import '../App.css';
 
 import { toast } from 'react-toastify'
@@ -19,7 +18,7 @@ import { parseEther } from '../contractConfig'
 import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai"
 import { FaRegShareSquare } from "react-icons/fa";
 
-function Cards({ item, currVideo, player, setPlayer, setCurrVideo, account, idx, processing, setProcessing, marketplace }) {
+function Cards({ item, currVideo, player, setPlayer, setCurrVideo, account, idx, marketplace }) {
 
   // STATE MANAGEMENT - Component state with boolean flags
   // Time Complexity: O(1) for state updates
@@ -27,18 +26,12 @@ function Cards({ item, currVideo, player, setPlayer, setCurrVideo, account, idx,
   const [liked, setLiked] = useState(false)
   const [disliked, setDisliked] = useState(false)
   const [canView, setCanView] = useState(false)
-
-  // EFFECT HOOK - Dependency-based side effects
-  // Time Complexity: O(1) for effect execution
-  // Space Complexity: O(1) for effect cleanup
-  useEffect(() => {
-    checkViewAccess();
-  }, [item, account]);
+  const [processing, setProcessing] = useState(false) // Local processing state for this card
 
   // BLOCKCHAIN VALIDATION - Smart contract interaction for access control
   // Time Complexity: O(1) for contract call
   // Space Complexity: O(1) for boolean result
-  const checkViewAccess = async () => {
+  const checkViewAccess = useCallback(async () => {
     if (!marketplace || !account) return;
     
     try {
@@ -47,7 +40,14 @@ function Cards({ item, currVideo, player, setPlayer, setCurrVideo, account, idx,
     } catch (error) {
       console.error("Error checking view access:", error);
     }
-  };
+  }, [marketplace, account, item.id]);
+
+  // EFFECT HOOK - Dependency-based side effects
+  // Time Complexity: O(1) for effect execution
+  // Space Complexity: O(1) for effect cleanup
+  useEffect(() => {
+    checkViewAccess();
+  }, [checkViewAccess]);
 
   // EVENT HANDLING - User interaction processing with state updates
   // Time Complexity: O(1) for state updates
@@ -73,11 +73,9 @@ function Cards({ item, currVideo, player, setPlayer, setCurrVideo, account, idx,
     setProcessing(true)
     try {
       const marketplacecontract = marketplace
-      console.log(marketplacecontract);   
       
       // DATA TRANSFORMATION - Price conversion for blockchain
       const price = parseEther(item.price);
-      console.log("price to pay: " + price);
       
       // SMART CONTRACT INTERACTION - Payable function call
       const tx = await marketplacecontract.payToView(item.id, {
@@ -92,15 +90,17 @@ function Cards({ item, currVideo, player, setPlayer, setCurrVideo, account, idx,
       await tx.wait();
       toast.success("Payment successful! You can now view the video.", { position: "top-center" })
       
-      // STATE UPDATE - Refresh access validation
-      await checkViewAccess();
+      // STATE UPDATE - Refresh access validation with delay to ensure blockchain state is updated
+      setTimeout(async () => {
+        await checkViewAccess();
+      }, 3000);
       
       setPlayer(true);
       setCurrVideo(item)
 
     } catch (error) {
       // ERROR HANDLING - Try-catch with user feedback
-      console.log(error);
+      console.log("Payment error:", error);
       toast.error("Payment failed. Please try again.", {
         position: "top-center"
       });
@@ -158,7 +158,7 @@ function Cards({ item, currVideo, player, setPlayer, setCurrVideo, account, idx,
           <h5 className='text-white text-sm font-thin mt-1'>Duration: {Math.floor(item.displayTime / 60)} minutes</h5>
           <div className='flex text-white justify-between items-center mb-3 gap-4 mt-3'>
             {/* CONDITIONAL RENDERING - Payment vs play button based on access */}
-            {!player && (
+            {!(player && currVideo && currVideo.id === item.id) && (
               canView ? (
                 <button 
                   type="button" 

@@ -16,14 +16,12 @@ import { ToastContainer } from 'react-toastify';
 import Home from './components/Home';
 import NFTs from './components/NFTs';
 import Create from './components/Create';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { toast } from 'react-toastify'
 import { ethers } from 'ethers';
 import { 
-  CONTRACT_ADDRESS, 
-  CONTRACT_ABI, 
   NETWORK_CONFIG, 
   getContract, 
   connectWallet 
@@ -59,7 +57,7 @@ function App() {
   // NETWORK SWITCHING ALGORITHM - Recursive with fallback handling
   // Time Complexity: O(1) average case, O(n) worst case (recursive calls)
   // Space Complexity: O(n) due to recursive call stack
-  const switchNetwork = async () => {
+  const switchNetwork = useCallback(async () => {
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
@@ -88,7 +86,7 @@ function App() {
       }
       console.log(error);
     }
-  }
+  }, [correctChainId])
 
   // EFFECT HOOK - Dependency-based side effects
   // Time Complexity: O(1) for comparison
@@ -102,7 +100,7 @@ function App() {
       console.log("curr chain: " + chainId);
       setCorrectNetwork(true);
     }
-  }, [chainId, correctChainId])
+  }, [chainId, correctChainId, switchNetwork])
 
   // PROVIDER INITIALIZATION - Dependency injection pattern
   // Time Complexity: O(1) for provider creation
