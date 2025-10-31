@@ -71,3 +71,4 @@ export const getPinataHeaders = (contentType = "multipart/form-data") => {
     "Content-Type": contentType,
   };
 }; 
+
